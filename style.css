@@ -4,3 +4,14 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+#rpsdiv {
+    display: flex;
+    justify-content: space-around;
+}
+
+.rpsbtn {
+    flex: 1;
+    padding: 2rem;
+    margin: 2rem;
+}
