@@ -1,79 +1,103 @@
-const rps = ['rock', 'paper', 'scissors'];
 let userScore = 0;
 let compScore = 0;
+let userSelect;
 
-// first to 5 wins
-function playGame() {
-    while (true) {
-        if (userScore >= 5) {
-            alert('You won the game!');
+const reset = document.querySelector('#reset');
+reset.addEventListener('click', resetGame);
+
+const rock = document.querySelector('#rock');
+rock.addEventListener('click', () => {
+    userSelect = 'rock'
+    switch (playRound(userSelect)) {
+        case 'userWin':
+            userScore++;
             break;
-        }
-        if (compScore >= 5) {
-            alert('You lost the game!');
+        case 'compWin':
+            compScore++;
             break;
-        }
-        switch (playRound()) {
-            case 'userWin':
-                userScore++;
-                break;
-            case 'compWin':
-                compScore++;
-                break;
-            case 'tie':
-                break;
-        }
+        case 'tie':
+            break;
     }
-}
+    scoreDiv();
+    checkWin();
+});
+
+const paper = document.querySelector('#paper');
+paper.addEventListener('click', () => {
+    userSelect = 'paper'
+    switch (playRound(userSelect)) {
+        case 'userWin':
+            userScore++;
+            break;
+        case 'compWin':
+            compScore++;
+            break;
+        case 'tie':
+            break;
+    }
+    scoreDiv();
+    checkWin();
+});
+
+const scissors = document.querySelector('#scissors');
+scissors.addEventListener('click', () => {
+    userSelect = 'scissors'
+    switch (playRound(userSelect)) {
+        case 'userWin':
+            userScore++;
+            break;
+        case 'compWin':
+            compScore++;
+            break;
+        case 'tie':
+            break;
+    }
+    scoreDiv();
+    checkWin();
+});
 
 // for compSelect -- rock = 1, paper = 2, scissors = 3
-function playRound() {
-    let userSelect = prompt('Rock, Paper, or Scissors?');
-    userSelect = userSelect.toLowerCase();
-    if (!(rps.includes(userSelect))) {
-            alert('Please make a valid selection');
-            playRound();
-        }
+function playRound(userSelect) {
     let compSelect = random();
     if (userSelect == 'rock') {
         if (compSelect == 1) {
-            alert('Computer picked rock, it\'s a tie')
+            winDiv('Computer picked rock, it\'s a tie');
             return 'tie';
         } 
         if (compSelect == 2) {
-            alert('Computer picked paper, computer wins')
+            winDiv('Computer picked paper, computer wins');
             return 'compWin';
         } 
         if (compSelect == 3) {
-            alert('Computer picked scissors, you win')
+            winDiv('Computer picked scissors, you win this round');
             return 'userWin';
         } 
     }
     if (userSelect == 'paper') {
         if (compSelect == 1) {
-            alert('Computer picked rock, you win')
+            winDiv('Computer picked rock, you win this round');
             return 'userWin';
         } 
         if (compSelect == 2) {
-            alert('Computer picked paper, it\'s a tie')
+            winDiv('Computer picked paper, it\'s a tie');
             return 'tie';
         } 
         if (compSelect == 3) {
-            alert('Computer picked scissors, computer wins')
+            winDiv('Computer picked scissors, computer wins this round');
             return 'compWin';
         } 
     }
     if (userSelect == 'scissors') {
         if (compSelect == 1) {
-            alert('Computer picked rock, computer wins')
+            winDiv('Computer picked rock, computer wins this round');
             return 'compWin';
         } 
         if (compSelect == 2) {
-            alert('Computer picked paper, you win')
+            winDiv('Computer picked paper, you win this round');
             return 'userWin';
         } 
         if (compSelect == 3) {
-            alert('Computer picked scissors, it\'s a tie')
+            winDiv('Computer picked scissors, it\'s a tie');
             return 'tie';
         } 
     }
@@ -83,4 +107,31 @@ function random() {
     return Math.floor(Math.random()*3) + 1;
 }
 
-playGame();
+function winDiv(text) {
+    document.getElementById('winner').textContent = text;
+}
+
+function scoreDiv() {
+    document.getElementById('userScore').textContent = userScore;
+    document.getElementById('compScore').textContent = compScore;
+}
+
+function checkWin() {
+    if (userScore>5 || compScore>5) {
+        winDiv('You can keep playing with the random function, or reset the game to play again!')
+    }
+    else if (userScore==5) {
+        winDiv('You won the game!');
+    }
+    else if (compScore==5) {
+        winDiv('The computer won the game!');
+    }
+}
+
+function resetGame() {
+    userScore = 0;
+    compScore = 0;
+    scoreDiv();
+    winDiv('First to 5 wins!');
+
+}
